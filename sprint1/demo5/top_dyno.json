@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Alênossauro Rex",
+    "strength": 2,
+    "agility": 10.0,
+    "heigth": 8.84
+  },
+  {
+    "name": "Marcerátops",
+    "strength": 1,
+    "agility": 5.2,
+    "heigth": 1.19
+  },
+  {
+    "name": "Lucirodonte",
+    "strength": 10,
+    "agility": 4.8,
+    "heigth": 5.94
+  },
+  {
+    "name": "Alexraptor",
+    "strength": 4,
+    "agility": 8.8,
+    "heigth": 9.32
+  }
+]
