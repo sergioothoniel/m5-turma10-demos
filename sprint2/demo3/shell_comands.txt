@@ -1,0 +1,1 @@
+# Comandos que foram executados na shell do Django durante a demo
