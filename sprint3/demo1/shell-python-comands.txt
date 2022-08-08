@@ -1,0 +1,213 @@
+# Comandos que foram executados na shell do Django
+
+from users.models import User
+
+user_data = {
+    "first_name": "Mar",
+    "last_name": "Celo",
+    "email": "marceratops@mail.com",
+    "favorite_season": "Inverno",
+}
+
+user = User(**user_data)
+user.save()
+
+
+user_data = {
+    "first_name": "Maraaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "last_name": "Celoaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "email": "marceratops",
+    "favorite_season": "algum",
+}
+
+user = User(**user_data)
+# Nenhuma validação ocorreu
+user.save()
+
+# Full Clean
+user = User(**user_data)
+# validation errors
+user.full_clean()
+
+
+user_data = {
+    "first_name": "Mar",
+    "last_name": "Celo",
+    "email": "marceratops@mail.com",
+    "favorite_season": "Inverno",
+}
+
+user = User(**user_data)
+user.full_clean()
+user.save()
+
+
+# Relacionamento 1:1 - User -> Address
+from addresses.models import Address
+from users.models import User
+
+user = User.objects.get(id=1)
+user
+
+address_data = {"street": "Rua do Sol", "number": 777}
+address = Address(**address_data)
+
+# ValidationError {'user': ['This field cannot be null.']}
+address.full_clean()
+
+# Error
+user.address
+
+user.address = address
+
+user.address
+address.save()
+user.address
+
+
+address
+dir(address)
+
+address.user_id
+
+address.user
+
+address.user.first_name
+address.user.last_name
+address.user.email
+
+user
+user.address
+user.address.street
+user.address.number
+
+
+# Relacionamento 1:N - User -> Recipe
+from recipes.models import Recipe
+from users.models import User
+
+user = User.objects.get(id=1)
+
+dir(user)
+
+user.recipe_set
+
+user.recipe_set.all()
+
+recipe_data = {"name": "Bolinho da vovó"}
+
+recipe = Recipe(**recipe_data)
+
+dir(recipe)
+
+user
+recipe
+
+recipe.user = user
+recipe.user
+
+recipe.save()
+
+user
+user.recipe_set.all()
+
+recipe_data = {"name": "Bife do Zé"}
+recipe = Recipe(**recipe_data)
+recipe
+
+# Error
+user.recipe_set = recipe
+
+# Error
+user.recipe_set.add(recipe)
+
+recipe.save()
+
+recipe
+
+user.recipe_set.add(recipe)
+user.recipe_set.all()
+
+
+recipe_data_1 = {"name": "Coxinha JS"}
+recipe_data_2 = {"name": "X-Python"}
+
+recipe_1 = Recipe(**recipe_data_1)
+recipe_2 = Recipe(**recipe_data_2)
+
+recipe_1
+recipe_2
+
+user
+user.recipe_set.all()
+
+# Error
+user.recipe_set.set([recipe_1, recipe_2])
+
+recipe_1.save()
+# Error
+recipe_2.save()
+
+recipe_2.user = user
+user.recipe_set.all()
+
+
+# Relacionamento N:N
+
+from ingredients.models import Ingredient
+from recipes.models import Recipe
+
+recipes = Recipe.objects.all()
+recipes
+
+dir(recipe[0])
+
+recipe[0].ingredients
+
+i1 = Ingredient(**{"name": "vóvó"})
+i1
+
+# Error
+i1.recipes
+
+i1.save()
+
+i1.recipes
+
+i1.recipes.all()
+
+recipe_vovo = Recipe.objects.get(id=1)
+recipe_vovo
+
+recipe_vovo.ingredients
+recipe_vovo.ingredients.all()
+recipe_vovo.ingredients.add(i1)
+
+i1
+recipe_vovo.ingredients.all()
+i1.recipes.all()
+
+i2 = Ingredient(**{"name": "bolinho"})
+i2.save()
+i2.recipes
+i2.recipes.all()
+
+i2.recipes.add(recipe_vovo)
+i2.recipes.all()
+recipe_vovo.ingredients.all()
+
+recipe_ze = Recipe.objects.get(id=2)
+recipe_ze
+
+i1
+i2
+
+recipe_ze.ingredients.add(i1)
+recipe_ze.ingredients.all()
+
+recipe_ze.ingredients.set([i2])
+recipe_ze.ingredients.all()
+
+
+recipe_ze.ingredients.add(i2)
+recipe_ze.ingredients.all()
