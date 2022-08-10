@@ -4,7 +4,6 @@ from rest_framework import serializers
 from .models import Seasons
 
 
-# user.recipe_set
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=10)
